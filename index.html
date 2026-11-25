@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WhatsApp AI Room Booking Engine | eGlobe Solutions</title>
+<meta name="description" content="Turn WhatsApp enquiries into direct bookings. AI replies in any language, offers smart discounts, matches OTA prices and asks for your approval before sending the final price.">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#12294a;--ink:#1f2937;--muted:#64748b;--blue:#2f6fe0;--soft:#e8f0fe;--green:#12a37a;--gsoft:#e4f6ef;--wa:#25d366;--wad:#128c7e;--amber:#d9890b;--asoft:#fdf1d8;--bg:#f5f8fe}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+/* header */
+header{position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 2px 14px rgba(15,30,60,.06)}
+.hd{display:flex;align-items:center;justify-content:space-between;height:76px;gap:20px}
+.hd img{height:62px}
+.hd nav{display:flex;gap:32px;font-weight:700;font-size:.95rem;color:#1b2434}
+.hd nav a:hover{color:var(--blue)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;border-radius:99px;padding:12px 26px;font-size:.95rem;border:2px solid transparent;cursor:pointer;transition:.2s}
+.btn.p{background:var(--wa);color:#05361b;box-shadow:0 6px 18px rgba(37,211,102,.35)}
+.btn.p:hover{transform:translateY(-2px);background:#20c15b}
+.btn.o{border-color:#0f4aa8;color:#0f4aa8;background:#fff}
+.btn.o:hover{background:#0f4aa8;color:#fff}
+/* hero */
+.hero{background:linear-gradient(160deg,#f3f8ff 0%,#e5f7ee 100%);padding:64px 0 96px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--wad);font-weight:700;font-size:.8rem;border-radius:99px;padding:6px 14px;box-shadow:0 2px 10px rgba(15,30,60,.07)}
+h1{font-size:clamp(2.1rem,4.2vw,3.2rem);line-height:1.1;font-weight:900;letter-spacing:-.03em;color:var(--navy);margin:18px 0 16px}
+h1 em{font-style:normal;color:var(--wad)}
+.lead{font-size:1.1rem;color:#4b5b73;max-width:540px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.chips span{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:99px;padding:7px 14px;font-size:.82rem;font-weight:600;color:var(--navy);box-shadow:0 2px 10px rgba(15,30,60,.06)}
+.chips i{color:var(--green)}
+/* phone */
+.phone{width:340px;max-width:100%;margin:0 auto;background:#0b141a;border-radius:38px;padding:10px;box-shadow:0 30px 70px rgba(15,30,60,.28)}
+.screen{background:#efeae2;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;height:660px}
+.wa-top{background:var(--wad);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.wa-top .av{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--wad);display:grid;place-items:center;font-size:1.1rem}
+.wa-top b{display:block;font-size:.9rem;line-height:1.2}.wa-top small{font-size:.7rem;opacity:.85}
+.chat{flex:1;padding:12px;display:flex;flex-direction:column;gap:7px;overflow:hidden;justify-content:flex-end}
+.m{max-width:82%;padding:7px 10px;border-radius:10px;font-size:.78rem;line-height:1.4;box-shadow:0 1px 1px rgba(0,0,0,.12);opacity:0;transform:translateY(8px);animation:pop .25s forwards}
+.m.in{background:#fff;align-self:flex-start;border-top-left-radius:2px}
+.m.out{background:#d9fdd3;align-self:flex-end;border-top-right-radius:2px}
+.m small{display:block;text-align:right;font-size:.6rem;color:#8696a0;margin-top:2px}
+.m .tg{display:inline-block;font-size:.6rem;font-weight:700;background:var(--soft);color:var(--blue);border-radius:99px;padding:1px 7px;margin-bottom:3px}
+.m .off{display:block;margin-top:4px;background:var(--gsoft);color:#0d7a5c;border-radius:6px;padding:4px 7px;font-weight:700}
+@keyframes pop{to{opacity:1;transform:none}}
+.m:nth-child(1){animation-delay:.3s}.m:nth-child(2){animation-delay:1.2s}.m:nth-child(3){animation-delay:2.2s}.m:nth-child(4){animation-delay:3.2s}.m:nth-child(5){animation-delay:4.2s}.m:nth-child(6){animation-delay:5.2s}
+.phone{position:relative}.dots{display:none!important;position:absolute;top:calc(100% + 14px);left:-20px;right:-20px;display:flex;gap:6px;justify-content:center}.dots span{font-size:.7rem;white-space:nowrap;font-weight:700;border-radius:99px;padding:4px 11px;background:#fff;color:var(--muted);box-shadow:0 1px 6px rgba(15,30,60,.08);transition:.3s}.dots span.on{background:var(--wad);color:#fff}[dir=rtl]{text-align:right}
+.wa-in{background:#f0f2f5;padding:9px 12px;display:flex;gap:8px;align-items:center;font-size:.75rem;color:#8696a0}
+.wa-in span{flex:1;background:#fff;border-radius:99px;padding:7px 12px}
+/* sections */
+section{padding:72px 0}
+.sec-h{text-align:center;max-width:680px;margin:0 auto 44px}
+.sec-h h2{font-size:clamp(1.7rem,3vw,2.3rem);font-weight:900;letter-spacing:-.02em;color:var(--navy)}
+.sec-h p{color:var(--muted);margin-top:10px;font-size:1.02rem}
+.alt{background:var(--bg)}
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;position:relative}
+.step{background:#fff;border-radius:20px;padding:24px 18px;text-align:center;box-shadow:0 4px 22px rgba(15,30,60,.07);position:relative}
+.step .n{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:.72rem;font-weight:800;border-radius:99px;padding:2px 11px}
+.step .ic{width:58px;height:58px;border-radius:17px;background:var(--gsoft);color:var(--wad);display:grid;place-items:center;font-size:1.6rem;margin:6px auto 12px}
+.step.ap .ic{background:var(--asoft);color:var(--amber)}
+.step h3{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.step p{font-size:.84rem;color:var(--muted)}
+.step.ap{box-shadow:0 0 0 2px var(--amber),0 6px 24px rgba(217,137,11,.16)}
+.flowimg{margin-top:44px;text-align:center}
+.flowimg img{max-width:100%;width:760px;border-radius:22px;box-shadow:0 18px 50px rgba(15,30,60,.16)}
+.flowimg small{display:block;margin-top:12px;color:var(--muted)}
+/* approval */
+.appr{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.appr h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:var(--navy);letter-spacing:-.02em;margin-bottom:14px}
+.appr ul{list-style:none;display:grid;gap:12px;margin-top:20px}
+.appr li{display:flex;gap:10px;color:#3b4a60}
+.appr li i{color:var(--green);margin-top:3px}
+.card{background:#fff;border-radius:22px;padding:26px;box-shadow:0 10px 36px rgba(15,30,60,.1)}
+.card h4{display:flex;align-items:center;gap:8px;font-size:.95rem;color:var(--navy);margin-bottom:14px}
+.card h4 i{color:var(--wad)}
+.row{display:flex;justify-content:space-between;padding:9px 0;font-size:.92rem;color:var(--muted)}
+.row b{color:var(--ink)}
+.row.ota b{color:#dc4a4a;text-decoration:line-through}
+.row.best{border-top:2px dashed #d3e0f5;margin-top:6px;padding-top:14px;color:var(--navy);font-weight:800;font-size:1.02rem}
+.row.best b{color:var(--green);font-size:1.25rem}
+.acts{display:flex;gap:10px;margin-top:16px}
+.acts span{flex:1;text-align:center;font-weight:700;font-size:.88rem;border-radius:12px;padding:11px}
+.acts .ok{background:var(--wa);color:#05361b}.acts .ed{background:var(--soft);color:var(--blue)}.acts .no{background:#fdecec;color:#dc4a4a}
+/* features */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.f{background:#fff;border-radius:20px;padding:26px;box-shadow:0 4px 22px rgba(15,30,60,.07);transition:.25s}
+.f:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(15,30,60,.12)}
+.f .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:1.4rem;margin-bottom:14px}
+.c1{background:var(--gsoft);color:var(--wad)}.c2{background:var(--soft);color:var(--blue)}.c3{background:var(--asoft);color:var(--amber)}
+.f h3{font-size:1.08rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.f p{font-size:.9rem;color:var(--muted)}
+/* results */
+.res{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
+.res div{background:#fff;border-radius:20px;padding:26px 14px;box-shadow:0 4px 22px rgba(15,30,60,.07)}
+.res b{display:block;font-size:2.1rem;font-weight:900;color:var(--wad);letter-spacing:-.02em}
+.res span{font-size:.88rem;color:var(--muted)}
+.langs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px}
+.langs span{background:#fff;border-radius:99px;padding:8px 16px;font-weight:600;font-size:.88rem;color:var(--navy);box-shadow:0 2px 10px rgba(15,30,60,.07)}
+.price{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;background:#fff;border-radius:26px;padding:34px 38px;box-shadow:0 10px 36px rgba(15,30,60,.1);border:2px solid var(--wa)}.price .pc{font-size:4.2rem;font-weight:900;color:var(--wad);letter-spacing:-.04em;line-height:1}.price h3{font-size:1.5rem;font-weight:900;color:var(--navy)}.price p{color:var(--muted);margin-top:6px}.price ul{list-style:none;display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:12px}.price li{font-size:.9rem;font-weight:600;color:#3b4a60;display:flex;gap:6px;align-items:center}.price li i{color:var(--green)}@media(max-width:991px){.price{grid-template-columns:1fr;text-align:center}.price ul{justify-content:center}}
+/* final cta */
+.final{background:linear-gradient(120deg,#12294a,#1c3f75);color:#fff;border-radius:28px;padding:48px 32px;text-align:center}
+.final h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;letter-spacing:-.02em}
+.final p{color:#cfdcf3;margin:10px auto 24px;max-width:560px}
+footer{padding:28px 0;text-align:center;color:var(--muted);font-size:.85rem}
+@media(max-width:991px){
+  .hero .wrap,.appr{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr 1fr}.res{grid-template-columns:1fr 1fr}
+  .hd nav{display:none}
+}
+@media(max-width:575px){.flow,.grid{grid-template-columns:1fr}.hd img{height:50px}}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <a href="index.html"><img src="https://www.eglobe-solutions.com/img/logo-dark.webp" alt="eGlobe Solutions" onerror="this.outerHTML='<b style=&quot;font-size:1.3rem;color:#12294a&quot;>eGlobe Solutions</b>'"></a>
+  <nav><a href="https://www.eglobe-solutions.com/index.html">Home</a><a href="#how">How it works</a><a href="#features">Features</a><a href="pricing.html">Pricing</a><a href="https://www.eglobe-solutions.com/contact.html">Contact Us</a></nav>
+  <a class="btn o" href="#demo">Book a Demo</a>
+</div></header>
+
+<!-- HERO -->
+<div class="hero"><div class="wrap">
+  <div>
+    <span class="pill"><i class="bi bi-whatsapp"></i> WhatsApp AI Room Booking Engine</span>
+    <h1>Turn every WhatsApp enquiry into a <em>direct booking</em></h1>
+    <p class="lead">Your AI assistant talks to guests in any language, offers smart discounts, matches the best OTA price and waits for your approval before the final price goes out. More direct bookings. Less dependence on OTAs.</p>
+    <div class="cta"><a class="btn p" href="#demo"><i class="bi bi-whatsapp"></i> Get started</a><a class="btn o" href="#how">See how it works</a></div>
+    <div class="chips"><span><i class="bi bi-check-circle-fill"></i> Any language</span><span><i class="bi bi-check-circle-fill"></i> Pay 10% only on confirmed bookings</span><span><i class="bi bi-check-circle-fill"></i> Works 24/7</span></div>
+  </div>
+  <div class="phone"><div class="screen">
+    <div class="wa-top"><span class="av"><i class="bi bi-robot"></i></span><div><b>Your Hotel · AI Assistant</b><small id="wa-lang">online · English</small></div></div>
+    <div class="chat" id="chat"></div>
+    <div class="wa-in"><span>Type a message</span><i class="bi bi-mic-fill"></i></div>
+  </div><div class="dots" id="dots"></div></div>
+</div></div>
+
+<!-- HOW -->
+<section id="how"><div class="wrap">
+  <div class="sec-h"><h2>How it works</h2><p>From the first message to a confirmed booking in five simple steps. You stay in control of every final price.</p></div>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><div class="ic"><i class="bi bi-chat-dots-fill"></i></div><h3>Guest messages</h3><p>The guest writes on WhatsApp in any language, any time.</p></div>
+    <div class="step"><span class="n">2</span><div class="ic"><i class="bi bi-robot"></i></div><h3>AI replies</h3><p>Checks availability and rates, then answers instantly in the guest's language.</p></div>
+    <div class="step"><span class="n">3</span><div class="ic"><i class="bi bi-bar-chart-line-fill"></i></div><h3>Price match</h3><p>Compares OTA prices and builds the best direct offer within your limits.</p></div>
+    <div class="step ap"><span class="n" style="background:var(--amber)">4</span><div class="ic"><i class="bi bi-person-check-fill"></i></div><h3>You approve</h3><p>The hotelier approves, edits or rejects the final price before it is sent.</p></div>
+    <div class="step"><span class="n">5</span><div class="ic"><i class="bi bi-calendar-check-fill"></i></div><h3>Booking confirmed</h3><p>Guest confirms. Reminders follow up on anyone who goes quiet.</p></div>
+  </div>
+  <div class="flowimg"><img src="flyer/whatsapp-ai-flow.png" alt="How the WhatsApp AI booking engine works"><small>The complete journey at a glance.</small></div>
+</div></section>
+
+<!-- APPROVAL -->
+<section class="alt"><div class="wrap appr">
+  <div>
+    <span class="pill" style="color:var(--amber)"><i class="bi bi-shield-check"></i> Hotelier stays in control</span>
+    <h2 style="margin-top:14px">Nothing goes to the guest without your approval</h2>
+    <p style="color:var(--muted)">The AI prepares the offer. You decide. Set your floor price and maximum discount once, and approve each final price in one tap on WhatsApp.</p>
+    <ul>
+      <li><i class="bi bi-check-circle-fill"></i>Set minimum price and maximum discount per room type.</li>
+      <li><i class="bi bi-check-circle-fill"></i>See the OTA price and the AI's suggested direct price side by side.</li>
+      <li><i class="bi bi-check-circle-fill"></i>Approve, edit or reject from your own phone.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4><i class="bi bi-bell-fill"></i> Approval request · Deluxe Room · 2 nights</h4>
+    <div class="row"><span>Your direct rate</span><b>₹6,500</b></div>
+    <div class="row ota"><span>Lowest OTA price found</span><b>₹6,400</b></div>
+    <div class="row"><span>Guest discount applied</span><b>– ₹450 (7%)</b></div>
+    <div class="row best"><span>Suggested final price / night</span><b>₹5,950</b></div>
+    <div class="acts"><span class="ok">Approve</span><span class="ed">Edit price</span><span class="no">Reject</span></div>
+  </div>
+</div></section>
+
+<!-- FEATURES -->
+<section id="features"><div class="wrap">
+  <div class="sec-h"><h2>Everything your front desk does on WhatsApp, automated</h2><p>Built for hotels that want more direct bookings without hiring more staff.</p></div>
+  <div class="grid">
+    <div class="f"><div class="ic c1"><i class="bi bi-translate"></i></div><h3>Any language conversation</h3><p>Guests chat in their own language. The AI understands and replies naturally, and you read everything in yours.</p></div>
+    <div class="f"><div class="ic c1"><i class="bi bi-chat-heart-fill"></i></div><h3>Auto coordination with guests</h3><p>Answers questions on rooms, meals, policies and location, and collects dates and guest details by itself.</p></div>
+    <div class="f"><div class="ic c3"><i class="bi bi-percent"></i></div><h3>Auto discount</h3><p>Offers smart discounts to guests who are hesitating, always within the limits you set.</p></div>
+    <div class="f"><div class="ic c2"><i class="bi bi-graph-up-arrow"></i></div><h3>OTA price match</h3><p>Checks what OTAs are showing and builds the best direct offer so guests have a reason to book with you.</p></div>
+    <div class="f"><div class="ic c3"><i class="bi bi-alarm-fill"></i></div><h3>Conversion reminders</h3><p>Follows up automatically with guests who asked but did not book, at the right time and in their language.</p></div>
+    <div class="f"><div class="ic c2"><i class="bi bi-person-check-fill"></i></div><h3>Approval before final price</h3><p>You approve, edit or reject every final price before the guest sees it. No surprises.</p></div>
+  </div>
+</div></section>
+
+<!-- RESULTS -->
+<section class="alt"><div class="wrap">
+  <div class="sec-h"><h2>Why hotels choose WhatsApp AI</h2><p>Guests already use WhatsApp. Meet them there and keep the booking.</p></div>
+  <div class="res">
+    <div><b>More</b><span>direct bookings</span></div>
+    <div><b>Less</b><span>OTA commission paid</span></div>
+    <div><b>24/7</b><span>instant replies</span></div>
+    <div><b>Any</b><span>language, easily</span></div>
+  </div>
+  <div class="langs"><span>English</span><span>हिन्दी</span><span>Español</span><span>Français</span><span>Deutsch</span><span>العربية</span><span>中文</span><span>Русский</span><span>日本語</span><span>and more</span></div>
+</div></section>
+
+<!-- PRICING -->
+<section><div class="wrap"><div class="price">
+  <div class="pc">10%</div>
+  <div><h3>Pay only on confirmed bookings</h3><p>No setup risk and no upfront payment. You pay just 10% commission when a guest's booking is confirmed.</p>
+    <ul><li><i class="bi bi-check-circle-fill"></i>No commission on enquiries</li><li><i class="bi bi-check-circle-fill"></i>No monthly lock-in</li><li><i class="bi bi-check-circle-fill"></i>Far below typical OTA commission</li></ul></div>
+  <a class="btn p" href="#demo"><i class="bi bi-whatsapp"></i> Get started</a>
+</div></div></section>
+
+<!-- CTA -->
+<section id="demo"><div class="wrap"><div class="final">
+  <h2>Get more direct bookings from WhatsApp</h2>
+  <p>See the WhatsApp AI Room Booking Engine working on your own property. Our team will set it up with you.</p>
+  <div class="cta" style="justify-content:center"><a class="btn p" href="https://www.eglobe-solutions.com/contact.html"><i class="bi bi-whatsapp"></i> Book a free demo</a><a class="btn o" href="pricing.html">View pricing</a></div>
+</div></div></section>
+<footer>© eGlobe Solutions · WhatsApp AI Room Booking Engine</footer>
+<script>
+(function(){
+const L=[
+{n:'English',tag:'Replying in English',m:['Hi! Do you have a room from 12 to 14 December for 2 people?','Hello! Yes, we have a Deluxe Room from ₹6,500 per night. Would you like to book?','Booking.com shows ₹6,400. Can you do better?','One moment, I am checking the best offer for you.','Best direct price: <b>₹5,950</b> per night, breakfast included.','Save 7% by booking direct','Perfect, booking now 🙌']},
+{n:'Hinglish',tag:'Hinglish mein reply',m:['Hello! 12 se 14 December ke liye 2 logon ka room milega?','Namaste! Ji haan, Deluxe Room ₹6,500 per night available hai. Book kar dein?','Booking.com par ₹6,400 dikh raha hai. Kya aap kuch kam kar sakte hain?','Ek minute, main aapke liye best offer check kar raha hoon.','Best direct rate: <b>₹5,950</b> per night, breakfast included.','Direct book karne par 7% bachat','Badhiya, abhi book karta hoon 🙌']},
+{n:'Español',tag:'Respuesta en español',m:['¡Hola! ¿Tienen habitación del 12 al 14 de diciembre para 2 personas?','¡Hola! Sí, tenemos Deluxe Room desde ₹6,500 por noche. ¿Desea reservar?','Booking.com muestra ₹6,400. ¿Pueden mejorar?','Un momento, consulto la mejor oferta para usted.','Mejor precio directo: <b>₹5,950</b> por noche, con desayuno incluido.','Ahorra 7% reservando directo','Perfecto, reservo ahora 🙌']},
+{n:'Français',tag:'Réponse en français',m:['Bonjour ! Avez-vous une chambre du 12 au 14 décembre pour 2 personnes ?','Bonjour ! Oui, chambre Deluxe à partir de ₹6,500 la nuit. Souhaitez-vous réserver ?','Booking.com affiche ₹6,400. Pouvez-vous faire mieux ?','Un instant, je cherche la meilleure offre pour vous.','Meilleur prix direct : <b>₹5,950</b> la nuit, petit-déjeuner inclus.','Économisez 7% en réservant en direct','Parfait, je réserve maintenant 🙌']},
+{n:'العربية',rtl:1,tag:'الرد بالعربية',m:['مرحباً! هل لديكم غرفة من 12 إلى 14 ديسمبر لشخصين؟','مرحباً! نعم، غرفة ديلوكس بسعر ₹6,500 لليلة. هل تريد الحجز؟','Booking.com يعرض ₹6,400. هل يمكنكم تقديم سعر أفضل؟','لحظة من فضلك، أبحث لك عن أفضل عرض.','أفضل سعر مباشر: <b>₹5,950</b> لليلة مع الإفطار.','وفّر 7% بالحجز المباشر','ممتاز، سأحجز الآن 🙌']}
+];
+const chat=document.getElementById('chat'),dots=document.getElementById('dots'),lab=document.getElementById('wa-lang');
+dots.innerHTML=L.map(l=>'<span>'+l.n+'</span>').join('');
+const T=['10:02','10:02','10:03','10:03','10:05','10:05'];
+let i=0;
+function play(){
+  const l=L[i],m=l.m,d=l.rtl?' dir="rtl"':'';
+  chat.innerHTML='';
+  lab.textContent='online · '+l.n;
+  [...dots.children].forEach((s,k)=>s.classList.toggle('on',k===i));
+  const msgs=[['in',m[0]],['out','<span class="tg">'+l.tag+'</span><br>'+m[1]],['in',m[2]],['out',m[3]],['out',m[4]+'<span class="off">'+m[5]+'</span>'],['in',m[6]]];
+  let k=0;
+  (function next(){
+    if(k>=msgs.length){ i=(i+1)%L.length; setTimeout(play,1500); return; }
+    const [c,h]=msgs[k];
+    const el=document.createElement('div');
+    el.className='m '+c; el.style.animationDelay='0s'; if(l.rtl) el.dir='rtl';
+    el.innerHTML=h+'<small>'+T[k]+(c==='out'?' ✓✓':'')+'</small>';
+    chat.appendChild(el); k++;
+    setTimeout(next,800);
+  })();
+}
+play();
+})();
+</script>
+</body>
+</html>
